@@ -5,7 +5,6 @@
   padding: 0;
   box-sizing: border-box;
 }
-
 :root {
   --txt-clr: #231942;
   --txt-clr-alt: #5e548e;
@@ -18,22 +17,23 @@
 }
 
 body {
-  font-family: sans-serif;
+  font-family: 'Chakra Petch', sans-serif;
   font-size: 18px;
   background-color: var(--bg-clr);
   color: var(--txt-clr);
 }
-
-.App {
-  padding: 2rem 1rem;
+.myApp {
   display: flex;
   flex-direction: column;
 }
-.App div {
+.dic-body {
+  padding: 2rem 1rem;
+}
+.myApp div {
   margin: 0 auto;
 }
-@media screen and (max-width: 768px) {
-  .App div {
+@media screen and (max-width: 728px) {
+  .myApp div {
     width: 100%;
   }
 }
@@ -53,6 +53,46 @@ body {
 .muted {
   color: var(--muted-clr);
   font-size: 1rem;
+}
+
+/* ==========----- HEADER --------======== */
+header {
+  background-color: var(--txt-clr);
+  padding: 1rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+header h1 {
+  color: var(--white-clr);
+  font-size: 1.4rem;
+  letter-spacing: .08rem;
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  column-gap: 2rem;
+}
+.navbar a {
+  text-decoration: none;
+  color: var(--white-clr);
+  position: relative;
+}
+.navbar a::before {
+  content: '';
+  background-color: var(--muted-clr);
+  position: absolute;
+  bottom: 0;
+  height: 2px;
+  width: 100%;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: 150ms transform ease-in-out;
+}
+.navbar a:hover::before {
+  transform-origin: left;
+  transform: scaleX(1);
 }
 
 /* ------------ */
@@ -160,6 +200,3 @@ body {
   color: var(--txt-clr-alt);
   white-space: pre-wrap;
 }
-
-
-/* --------------- */

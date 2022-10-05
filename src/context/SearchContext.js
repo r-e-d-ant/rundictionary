@@ -40,7 +40,10 @@ export const ContextProvider = ({ children }) => {
         if (!window.localStorage.getItem('localEn2Ru')) {
             fetchFromFirebase(`0/en2ru`, "localEn2Ru")
             setLoading(false);
-        } else if (!window.localStorage.getItem('localRu2En')) {
+        } else {
+            setLoading(false);
+        }
+        if (!window.localStorage.getItem('localRu2En')) {
             fetchFromFirebase(`1/ru2en`, "localRu2En")
             setLoading(false);
         } else {
