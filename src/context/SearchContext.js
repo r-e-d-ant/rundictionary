@@ -3,9 +3,13 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { ref, child, get } from "firebase/database";
 import { database } from "../firebase";
 
+import latinize from 'latinize'; // package to transform accented letter into normal form
+
 const SearchContext = createContext();
 
 export const ContextProvider = ({ children }) => {
+    const [searchKey, setSearchKey] = useState(''); // state to track search key inputs
+    const [displayAutoComplete, setDisplayAutoComplete] = useState(false) // state to hide/show auto complete box
     const [searchResult, setSearchResult] = useState({}); // to hold search word
     const [toSearchIn, setToSearchIn] = useState('en2ru'); // to hold a lang to transform from then to
     const [loading, setLoading] = useState(false); // state for tracking loading data from firebase when not in localStorage
@@ -58,7 +62,7 @@ export const ContextProvider = ({ children }) => {
         // Check to language to tranalate from and change accordingly
         if (toSearchIn === 'ru2en') {
             console.log(ru2en);
-            found = ru2en.find(e => e.ki1.replace(/-/g, '') === searchK);
+            found = ru2en.find(e => latinize(e.ki1.replace(/-/g, '')) === searchK);
         } else if (toSearchIn === 'en2ru') {
             console.log(en2ru);
             found = en2ru.find(e => e.en.replace(/-/g, '') === searchK);
@@ -79,8 +83,18 @@ export const ContextProvider = ({ children }) => {
         }
     }
 
+    // Function to tranform word into title case
+    function toTitleCase(str) {
+        return str.replace(
+            /\w\S*/g,
+            function(txt) {
+                return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+            }
+        );
+    }
+
     return (
-        <SearchContext.Provider value={{ searchInDictionary, setToSearchIn, toSearchIn, setActivateSearchResultComponent, activateSearchResultComponent, searchResult, loading, notFound }}>
+        <SearchContext.Provider value={{ toTitleCase, setSearchKey, searchKey, setDisplayAutoComplete, displayAutoComplete, searchInDictionary, setToSearchIn, toSearchIn, setActivateSearchResultComponent, activateSearchResultComponent, searchResult, loading, notFound }}>
             { children }
         </SearchContext.Provider>
     )

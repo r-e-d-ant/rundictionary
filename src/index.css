@@ -63,6 +63,28 @@ body {
   align-items: center;
 }
 
+/* ---- auto completetion ----- */
+.autocomplete-result-container {
+  background-color: var(--white-clr-bg);
+  border-width: thin;
+  border-style: solid;
+  border-top-color: transparent;
+  border-bottom-color:#2319421e;
+  border-left-color: #2319421e;
+  border-right-color: #2319421e;
+  border-radius: 0 0 5px 5px;
+  height: 50%;
+  overflow-y: scroll;
+}
+.option {
+  cursor: pointer;
+  padding: 1rem .5rem;
+  color: var(--txt-clr-alt);
+}
+.option:hover {
+  background-color: var(--white-clr);
+}
+
 /* ----------- */
 .input-label {
   margin-top: 1rem;
@@ -74,7 +96,7 @@ body {
   padding: 0 .5rem;
   border: thin solid #5e548e64;
   outline: none;
-  border-radius: 5px;
+  border-radius: 5px 5px 0 0;
 }
 @media screen and (min-width: 728px) {
   .form-control {

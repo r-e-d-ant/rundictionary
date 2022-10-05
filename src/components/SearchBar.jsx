@@ -1,15 +1,23 @@
 
-import { useState } from 'react';
+import AutoComplete from './AutoComplete';
 import { Search } from '../context/SearchContext';
 
 const SearchBar = () => {
-    const [searchKey, setSearchKey] = useState('');
-    const { searchInDictionary, loading } = Search();
+    const { setSearchKey, searchKey, setDisplayAutoComplete, searchInDictionary, loading } = Search();
 
+    // This function will help to set a key entered by user
+    // and also activate autocomplete box
+    const settingSearchKey = (e) => {
+        setSearchKey(e.target.value);
+        setDisplayAutoComplete(true);
+    }
+
+    // This function is for searching in dictionary for the searched word
     const searchInDic = (e) => {
         e.preventDefault();
         searchInDictionary(searchKey)
     }
+    
     return (
         <div>
             <form onSubmit={searchInDic}>
@@ -22,8 +30,9 @@ const SearchBar = () => {
                         id="keyword-search"
                         className="form-control"
                         value={searchKey}
-                        onChange={(e) => setSearchKey(e.target.value)}
+                        onChange={(e) => settingSearchKey(e)}
                     />
+                    <AutoComplete />
                 </div>
                 <div className='form-control-cont flex-d-col'>
                     <button type="submit" className='btn submit-btn' disabled={loading || !searchKey.length}>Search</button>
