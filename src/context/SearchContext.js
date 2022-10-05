@@ -83,7 +83,7 @@ export const ContextProvider = ({ children }) => {
         }
     }
 
-    // Function to tranform word into title case
+    // Function to tranform words into title case
     function toTitleCase(str) {
         return str.replace(
             /\w\S*/g,
