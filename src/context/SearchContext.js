@@ -24,7 +24,7 @@ export const ContextProvider = ({ children }) => {
         // countdown of one minute to set if loading is taking to long
         setTimeout(() => {
             setLoadingMessage(true);
-        }, 10000);
+        }, 20000);
 
         get(child(ref(database), resourceToQueryFrom)).then((snapshot) => {
             if (snapshot.exists()) {
