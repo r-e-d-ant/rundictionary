@@ -200,3 +200,7 @@ header h1 {
   color: var(--txt-clr-alt);
   white-space: pre-wrap;
 }
+.loading-message {
+  margin-top: 2rem;
+  color: var(--txt-clr-alt);
+}

@@ -13,24 +13,35 @@ export const ContextProvider = ({ children }) => {
     const [searchResult, setSearchResult] = useState({}); // to hold search word
     const [toSearchIn, setToSearchIn] = useState('en2ru'); // to hold a lang to transform from then to
     const [loading, setLoading] = useState(false); // state for tracking loading data from firebase when not in localStorage
-    const [notFound, setNotFound] = useState(true); // state for tracking if searched word is available
+    const [loadingMessage, setLoadingMessage] = useState(false); // state to track if loading process is taking long
+    const [notFound, setNotFound] = useState(false); // state for tracking if searched word is available
     const [activateSearchResultComponent, setActivateSearchResultComponent] = useState(false); // state to activate searc result box
 
     // function to query from firebase
     const fetchFromFirebase = (resourceToQueryFrom, localStorageNameToSaveIn) => {
+        setLoading(true);
+
+        // countdown of one minute to set if loading is taking to long
+        setTimeout(() => {
+            setLoadingMessage(true);
+        }, 10000);
+
         get(child(ref(database), resourceToQueryFrom)).then((snapshot) => {
             if (snapshot.exists()) {
                 var data = snapshot.val();
                 window.localStorage.setItem(localStorageNameToSaveIn,  JSON.stringify(data)); // we use 'JSON.stringify()' because local storage can only save string type value
+                setLoading(false);
+                setLoadingMessage(false);
             } else {
                 console.log("No data available");
+                setNotFound(true)
+                setLoadingMessage(false);
             }
         }).catch((error) => {
             console.error(error);
         });
     }
     useEffect(() => {
-        setLoading(true);
         // '''
         // Check from local storage if all the languages data are there
         // if are not there fetch them from Firebase and save them locally
@@ -39,15 +50,9 @@ export const ContextProvider = ({ children }) => {
         // '''
         if (!window.localStorage.getItem('localEn2Ru')) {
             fetchFromFirebase(`0/en2ru`, "localEn2Ru")
-            setLoading(false);
-        } else {
-            setLoading(false);
         }
         if (!window.localStorage.getItem('localRu2En')) {
             fetchFromFirebase(`1/ru2en`, "localRu2En")
-            setLoading(false);
-        } else {
-            setLoading(false);
         }
     }, [])
     
@@ -64,10 +69,8 @@ export const ContextProvider = ({ children }) => {
 
         // Check to language to tranalate from and change accordingly
         if (toSearchIn === 'ru2en') {
-            console.log(ru2en);
             found = ru2en.find(e => latinize(e.ki1.replace(/-/g, '')) === searchK);
         } else if (toSearchIn === 'en2ru') {
-            console.log(en2ru);
             found = en2ru.find(e => e.en.replace(/-/g, '') === searchK);
         } else {
             setNotFound(true);
@@ -77,7 +80,6 @@ export const ContextProvider = ({ children }) => {
         setActivateSearchResultComponent(true)
 
         if (found) {
-            console.log(found);
             setSearchResult(found);
             setNotFound(false);
         } else {
@@ -97,7 +99,7 @@ export const ContextProvider = ({ children }) => {
     }
 
     return (
-        <SearchContext.Provider value={{ toTitleCase, setSearchKey, searchKey, setDisplayAutoComplete, displayAutoComplete, searchInDictionary, setToSearchIn, toSearchIn, setActivateSearchResultComponent, activateSearchResultComponent, searchResult, loading, notFound }}>
+        <SearchContext.Provider value={{ toTitleCase, setSearchKey, searchKey, setDisplayAutoComplete, displayAutoComplete, searchInDictionary, setToSearchIn, toSearchIn, setActivateSearchResultComponent, activateSearchResultComponent, searchResult, loading, loadingMessage, notFound }}>
             { children }
         </SearchContext.Provider>
     )
