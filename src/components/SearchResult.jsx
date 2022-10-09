@@ -3,13 +3,12 @@ import { Search } from '../context/SearchContext';
 import parse from 'html-react-parser';
 
 const SearchResult = () => {
-    const { toTitleCase, activateSearchResultComponent, toSearchIn, searchResult, loading, loadingMessage, notFound } = Search();
+    const { toTitleCase, activateSearchResultComponent, toSearchIn, searchResult, loading, notFound } = Search();
 
     return (
         <div className="search-result-container">
             { loading && <p>Loading...</p> }
             { notFound && <p className='loading-message'>Sorry, No data found.</p> }
-            { loadingMessage && <p className='loading-message'>Mmmm sorry! seems like it's taking long.<br/> Check your internet connection!</p> }
 
             { activateSearchResultComponent && 
             ( Object.keys(searchResult).length ?

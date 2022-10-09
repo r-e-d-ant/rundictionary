@@ -13,29 +13,20 @@ export const ContextProvider = ({ children }) => {
     const [searchResult, setSearchResult] = useState({}); // to hold search word
     const [toSearchIn, setToSearchIn] = useState('en2ru'); // to hold a lang to transform from then to
     const [loading, setLoading] = useState(false); // state for tracking loading data from firebase when not in localStorage
-    const [loadingMessage, setLoadingMessage] = useState(false); // state to track if loading process is taking long
     const [notFound, setNotFound] = useState(false); // state for tracking if searched word is available
     const [activateSearchResultComponent, setActivateSearchResultComponent] = useState(false); // state to activate searc result box
 
     // function to query from firebase
     const fetchFromFirebase = (resourceToQueryFrom, localStorageNameToSaveIn) => {
         setLoading(true);
-
-        // countdown of one minute to set if loading is taking to long
-        setTimeout(() => {
-            setLoadingMessage(true);
-        }, 20000);
-
         get(child(ref(database), resourceToQueryFrom)).then((snapshot) => {
             if (snapshot.exists()) {
                 var data = snapshot.val();
                 window.localStorage.setItem(localStorageNameToSaveIn,  JSON.stringify(data)); // we use 'JSON.stringify()' because local storage can only save string type value
                 setLoading(false);
-                setLoadingMessage(false);
             } else {
                 console.log("No data available");
                 setNotFound(true)
-                setLoadingMessage(false);
             }
         }).catch((error) => {
             console.error(error);
@@ -99,7 +90,7 @@ export const ContextProvider = ({ children }) => {
     }
 
     return (
-        <SearchContext.Provider value={{ toTitleCase, setSearchKey, searchKey, setDisplayAutoComplete, displayAutoComplete, searchInDictionary, setToSearchIn, toSearchIn, setActivateSearchResultComponent, activateSearchResultComponent, searchResult, loading, loadingMessage, notFound }}>
+        <SearchContext.Provider value={{ toTitleCase, setSearchKey, searchKey, setDisplayAutoComplete, displayAutoComplete, searchInDictionary, setToSearchIn, toSearchIn, setActivateSearchResultComponent, activateSearchResultComponent, searchResult, loading, notFound }}>
             { children }
         </SearchContext.Provider>
     )
