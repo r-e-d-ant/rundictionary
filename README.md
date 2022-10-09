@@ -4,8 +4,8 @@
 
 <div align="center">
   
-[![CodeQLCI](https://github.com/r-e-d-ant/rundictionary/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/r-e-d-ant/rundictionary/actions/workflows/codeql-analysis.yml)
-
+[![CodeQLC](https://github.com/r-e-d-ant/rundictionary/actions/workflows/codeql.yml/badge.svg)](https://github.com/r-e-d-ant/rundictionary/actions/workflows/codeql.yml)
+  
 <p>
   <a href="#-technologies-used">Technologies Used</a> •
   <a href="#-how-to-use">How To Use</a> •
