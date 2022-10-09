@@ -36,7 +36,7 @@
 ## 🏆 Technologies Used
 
 - [React](https://github.com/facebook/react/)
-- [Firebase](Firebase)
+- [Firebase](https://firebase.google.com/)
 
 ## 💻 How to Use
 
