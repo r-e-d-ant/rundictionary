@@ -13,7 +13,7 @@ export const ContextProvider = ({ children }) => {
     const [searchResult, setSearchResult] = useState({}); // to hold search word
     const [toSearchIn, setToSearchIn] = useState('en2ru'); // to hold a lang to transform from then to
     const [loading, setLoading] = useState(false); // state for tracking loading data from firebase when not in localStorage
-    const [notFound, setNotFound] = useState(false); // state for tracking if searched word is available
+    const [notFound, setNotFound] = useState(false); // state for tracking if data is available from firebase available
     const [activateSearchResultComponent, setActivateSearchResultComponent] = useState(false); // state to activate searc result box
 
     // function to query from firebase
@@ -58,11 +58,16 @@ export const ContextProvider = ({ children }) => {
 
         let found;
 
-        // Check to language to tranalate from and change accordingly
+        // Check to language to translate from and change accordingly
         if (toSearchIn === 'ru2en') {
-            found = ru2en.find(e => latinize(e.ki1.replace(/-/g, '')) === searchK);
+            // latinize the words by removing accents
+            // remove all dashes between word
+            // then search by the keyword entered by user
+            found = ru2en.find(e => latinize(e.ki1.replace(/-/g, '')).toLowerCase() === searchK.toLowerCase());
         } else if (toSearchIn === 'en2ru') {
-            found = en2ru.find(e => e.en.replace(/-/g, '') === searchK);
+            // remove all dashes between word
+            // then search by the keyword entered by user
+            found = en2ru.find(e => e.en.replace(/-/g, '').toLowerCase() === searchK.toLowerCase());
         } else {
             setNotFound(true);
         }
@@ -72,9 +77,7 @@ export const ContextProvider = ({ children }) => {
 
         if (found) {
             setSearchResult(found);
-            setNotFound(false);
         } else {
-            setNotFound(true);
             setSearchResult({});
         }
     }
