@@ -3,7 +3,7 @@ import AutoComplete from './AutoComplete';
 import { Search } from '../context/SearchContext';
 
 const SearchBar = () => {
-    const { setSearchKey, searchKey, setDisplayAutoComplete, searchInDictionary, loading, notFound } = Search();
+    const { setSearchKey, searchKey, setDisplayAutoComplete, searchInDictionary, loading } = Search();
 
     // This function will help to set a key entered by user
     // and also activate autocomplete box
@@ -26,7 +26,7 @@ const SearchBar = () => {
                     <label htmlFor="keyword-search" className="input-label">Search keyword</label>
                     <input
                         type="search"
-                        disabled={loading || notFound}
+                        disabled={loading}
                         autoFocus={!loading}
                         id="keyword-search"
                         className="form-control"
